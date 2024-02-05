@@ -13,8 +13,8 @@ pipeline {
             steps {
                 echo 'Build Code..'
 		sh 'cd webapp && npm install && npm run build'
-	}
-      }
+	    }	
+        }
 	
        }
      
