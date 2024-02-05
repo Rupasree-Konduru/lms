@@ -9,7 +9,6 @@ pipeline {
             }
         }
 	}I		
- 	stages {
         stage('Building') {
             steps {
                 echo 'Build Code..'
@@ -18,4 +17,4 @@ pipeline {
       }
 	
        }
-      }
+     
