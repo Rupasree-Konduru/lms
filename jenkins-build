@@ -1,9 +1,11 @@
 pipeline {
     agent any
+stages{
     stage('Build') {
     steps {
         echo 'Building..'
         sh 'cd lms-1.1-yellow/webapp && npm install && npm run build'
           }
         } 
+}
 }
