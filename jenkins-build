@@ -7,5 +7,17 @@ stages{
         sh 'cd lms-1.1-yellow/webapp && npm install && npm run build'
           }
         } 
+  stage('Release LMS') {
+            steps {
+                script {
+                    echo "Releasing.."       
+                    def packageJSON = readJSON file: 'lms-1.1-yellow/webapp/package.json'
+                    def packageJSONVersion = packageJSON.version
+                    echo "${packageJSONVersion}"  
+                    sh "zip lms-1.1-yellow/webapp/dist-${packageJSONVersion}.zip -r lms-1.1-yellow/webapp/dist"
+                    sh "curl -v -u admin:Kmshdr@12345 --upload-file lms-1.1-yellow/webapp/dist-${packageJSONVersion}.zip http://54.187.86.13:8081/repository/lms/"     
+            }
+            }
+        }
 }
 }
