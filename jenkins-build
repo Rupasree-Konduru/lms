@@ -3,7 +3,7 @@ pipeline {
     stage('Build') {
     steps {
         echo 'Building..'
-        sh 'cd webapp && npm install && npm run build'
+        sh 'cd lms-1.1-yellow/webapp && npm install && npm run build'
           }
         } 
 }
