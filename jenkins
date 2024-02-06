@@ -1,0 +1,8 @@
+
+stages {
+	stage('github-tag') {
+	     steps {
+		sh 'wget https://github.com/Rupasree-Konduru/lms/archive/refs/tags/v1.1-yellow.tar.gz'
+		sh 'tar -xvf v1.1-yellow.tar.gz'
+	     }
+	}
