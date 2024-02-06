@@ -1,7 +1,5 @@
 pipeline {
     agent any
-
-    stages {
 	stages {
 	stage('github-tag') {
 	     steps {
@@ -17,7 +15,6 @@ pipeline {
 	 }
         }
 
-    }
 }
 }
      
