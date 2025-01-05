@@ -18,5 +18,17 @@ pipeline {
                 '''
             }
         }
+          stage('Release LMS') {
+            steps {
+                script {
+                    echo "Releasing.."       
+                    def packageJSON = readJSON file: 'webapp/package.json'
+                    def packageJSONVersion = packageJSON.version
+                    echo "${packageJSONVersion}"  
+                    sh "zip webapp/dist-${packageJSONVersion}.zip -r webapp/dist"
+                    sh "curl -v -u admin:Kmshdr@12345 --upload-file webapp/dist-${packageJSONVersion}.zip http://52.66.24.136:8081/repository/lms/"     
+            }
+            }
+        }
     }
 }
