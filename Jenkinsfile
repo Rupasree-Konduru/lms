@@ -22,22 +22,28 @@ pipeline {
     steps {
         script {
             echo "Releasing.."       
+            
+            // Read the package.json and extract the version
             def packageJSON = readJSON file: 'webapp/package.json'
             def packageJSONVersion = packageJSON.version
             echo "Package version: ${packageJSONVersion}"
-            
+
             // Create the ZIP file
             sh "zip -r webapp/dist-${packageJSONVersion}.zip webapp/dist"
-            
+
+            // Verify the ZIP file exists
+            sh "ls -l webapp/dist-${packageJSONVersion}.zip"
+
             // Upload the ZIP file to Nexus
-            sh '''
+            sh """
                 curl -v -u admin:Kmshdr@12345 \
                 --upload-file webapp/dist-${packageJSONVersion}.zip \
                 http://52.66.24.136:8081/repository/lms/
-            '''
+            """
         }
     }
 }
+
 
     }
 }
