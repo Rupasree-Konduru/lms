@@ -18,24 +18,27 @@ pipeline {
                 '''
             }
         }
-         stage('Release LMS') {
-    steps {
-        script {
-            echo "Releasing.."       
-            
-            // Read the package.json and extract the version
+        stage('Release LMS') {
+            steps {
+                script {
+                    echo "Releasing.."       
+                    
+                    // Read the package.json and extract the version
+                    def packageJson = readJSON file: 'webapp/package.json'
+                    def packageJSONVersion = packageJson.version
+                    echo "Package version: ${packageJSONVersion}"
+                    
+                    // Create a ZIP archive
+                    sh "zip -r webapp/lms-${packageJSONVersion}.zip webapp/dist"
 
-            def packageJson = readJSON file: 'webapp/package.json'
-def packageJSONVersion = packageJson.version
-echo "${packageJSONVersion}"
-sh "zip webapp/lms-${packageJSONVersion}.zip -r webapp/dist"
-sh "curl -v -u admin:Kmshdr@12345 --upload-file webapp/lms-
-${packageJSONVersion}.zip http://52.66.24.136:8081/repository/lms/"
+                    // Upload the ZIP to Nexus
+                    sh """
+                        curl -v -u admin:Kmshdr@12345 \
+                        --upload-file webapp/lms-${packageJSONVersion}.zip \
+                        http://52.66.24.136:8081/repository/lms/
+                    """
+                }
+            }
         }
-        
-    }
-}
-
-
     }
 }
